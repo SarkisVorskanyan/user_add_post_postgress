@@ -1,16 +1,16 @@
-import React from 'react';
-import { useAppSelector } from './myHooks/Redux';
+import React, { useEffect } from 'react';
+import { Route, Routes } from 'react-router-dom';
+import HomePage from './pages/HomePage';
+import PostPage from './pages/PostPage';
 
 function App() {
 
-  const {load} = useAppSelector(state => state.user);
-
   return (
-    <div className="App">
-      <p>Hello node</p>
-      <p>{load}</p>
-      <button>Send</button>
-    </div>
+    <Routes> 
+      <Route path="/" element={<HomePage />} />
+      <Route path="/post" element={<PostPage />} />
+
+    </Routes>
   );
 }
 

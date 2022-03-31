@@ -1,11 +1,17 @@
+import { IUser } from './../../models/UserTypes';
 import {createSlice, PayloadAction} from "@reduxjs/toolkit";
+import { fetchAllUsers } from '../action/User_actions';
 
 interface UserState {
-    load: string,
+    load: boolean,
+    error: string | null,
+    users: IUser[]
 }
 
 const initialState: UserState = {
-    load: 'Marine',
+    load: false,
+    error: null,
+    users: []
 }
 
 export const UserSlice = createSlice({
@@ -15,7 +21,18 @@ export const UserSlice = createSlice({
        
     },
     extraReducers: {
-      
+        [fetchAllUsers.pending.type]: (state) => {
+            state.load = true
+        },
+        [fetchAllUsers.fulfilled.type]: (state, action: PayloadAction<IUser[]>) => {
+            state.load = false
+            state.users = action.payload
+            state.error = ''
+        },
+        [fetchAllUsers.rejected.type]: (state, action: PayloadAction<string>) => {
+            state.load = false
+            state.error = action.payload
+        }
     }
 
 })

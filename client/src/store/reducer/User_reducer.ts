@@ -1,3 +1,4 @@
+import { createUser } from './../action/User_actions';
 import { IUser } from './../../models/UserTypes';
 import {createSlice, PayloadAction} from "@reduxjs/toolkit";
 import { fetchAllUsers } from '../action/User_actions';
@@ -30,6 +31,18 @@ export const UserSlice = createSlice({
             state.error = ''
         },
         [fetchAllUsers.rejected.type]: (state, action: PayloadAction<string>) => {
+            state.load = false
+            state.error = action.payload
+        },
+        //Create user
+        [createUser.pending.type]: (state) => {
+            state.load = true
+        },
+        [createUser.fulfilled.type]: (state, action: PayloadAction) => {
+            state.load = false
+            state.error = ''
+        },
+        [createUser.rejected.type]: (state, action: PayloadAction<string>) => {
             state.load = false
             state.error = action.payload
         }

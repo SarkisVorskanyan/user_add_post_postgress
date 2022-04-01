@@ -6,11 +6,14 @@ import PostPage from './pages/PostPage';
 function App() {
 
   return (
-    <Routes> 
-      <Route path="/" element={<HomePage />} />
-      <Route path="/post" element={<PostPage />} />
+    <div style={{padding: 100, background: '#1D3542'}}>
+      <Routes> 
+        <Route path="/" element={<HomePage />} />
+        <Route path="/post" element={<PostPage />} />
 
     </Routes>
+    </div>
+    
   );
 }
 

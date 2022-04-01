@@ -1,13 +1,19 @@
 import React, { FC, useEffect } from 'react'
-import { Button, Card, Col, Row } from 'antd'
-import Meta from 'antd/lib/card/Meta'
+import { Col, Row } from 'antd'
 import { useAppDispatch, useAppSelector } from '../myHooks/Redux'
-import { fetchAllUsers } from '../store/action/User_actions'
+import { createUser, fetchAllUsers } from '../store/action/User_actions'
+import UserList from '../components/UserList'
+import AddUserForm from '../components/AddUserForm'
 
 const HomePage: FC = () => {
 
     const dispatch = useAppDispatch()
-    const {load} = useAppSelector(state => state.user);
+    const {users, error, load} = useAppSelector(state => state.user);
+
+    const createNewUser = () => {
+        //dispatch(createUser(data))
+        dispatch(fetchAllUsers())
+    }
 
 
     useEffect(() => {
@@ -17,21 +23,12 @@ const HomePage: FC = () => {
     return (
         <Row>
             <Col span={6} >
-                <div style={{background: 'red'}}>
-                    col-18 col-push-6
-                </div>
+                <AddUserForm />
             </Col>
             <Col span={18}>
-            <Card
-                hoverable
-                style={{ width: 240 }}
-                cover={<img alt="example" src="https://os.alipayobjects.com/rmsportal/QBnOOoLaAfKPirc.png" />}
-            >
-                <Meta title="Marine" />
-            </Card>
+            <UserList users={users} />
             </Col>
         </Row>
-        // <h1>sdvhsuushuvushusuvhus</h1>
     )
 }
 

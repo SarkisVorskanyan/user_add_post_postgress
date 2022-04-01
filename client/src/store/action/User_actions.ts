@@ -6,10 +6,25 @@ export const fetchAllUsers = createAsyncThunk(
     'user/fetchAll',
     async (_, thunkAPI) => {
         try{
-            const response = await instance.get<IUser[]>('/api/user')
+            const response = await instance.get<IUser[]>('api/user')
             return response.data
         }
         catch (e) {
+            return thunkAPI.rejectWithValue('404 error')
+        }
+    }
+)
+
+export const createUser = createAsyncThunk(
+    'user/createUser',
+    async (_, thunkAPI) => {
+        try{
+            debugger
+            const response = await instance.post('api/user')
+            return response.data
+        }
+        catch (e) {
+            debugger
             return thunkAPI.rejectWithValue('404 error')
         }
     }

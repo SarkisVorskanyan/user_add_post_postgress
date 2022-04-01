@@ -1,0 +1,43 @@
+import { Button, Form, Input } from 'antd';
+import React, { FC } from 'react'
+import { SubmitHandler, useForm, Controller } from 'react-hook-form';
+import { yupResolver } from '@hookform/resolvers/yup';
+import {ValidateAddUser} from '../utils/validation/ValidateAddUser'
+
+type Inputs = {
+    name: string,
+    surname: string,
+  };
+
+const AddUserForm: FC = () => {
+
+    const { register, handleSubmit, reset, formState: { errors } } = useForm<Inputs>();
+
+ 
+    const onSubmit: SubmitHandler<Inputs> = (data: Inputs) => {
+        console.log(data)
+        reset()
+    }
+
+    return (
+        <form onSubmit={handleSubmit(onSubmit)}>
+                <div style={{marginBottom: 20, display: 'flex', flexDirection: 'column'}}>
+                    <label style={{fontSize: 20, color: '#fff'}}>Անուն</label>
+                    <input placeholder='Անուն' autoComplete='off' {...register("name", {required: true, maxLength: 20})} />
+                    {errors.name && <span style={{color: 'red'}}>This field is required</span>}
+                </div>
+            
+            <div style={{marginBottom: 20, display: 'flex', flexDirection: 'column'}}>
+                <label style={{fontSize: 20, color: '#fff'}}>Ազգանուն</label>
+                <input placeholder='Ազգանուն' autoComplete='off' {...register("surname",  {required: true, maxLength: 20})} />
+                {errors.surname && <span style={{color: 'red'}}>This field is required</span>}
+            </div>
+           
+            <button style={{ background: "red", color: '#fff' }} type='submit' >
+                Ստեղծել
+            </button>
+        </form>
+    )
+}
+
+export default AddUserForm

@@ -1,4 +1,4 @@
-import { createUser } from './../action/User_actions';
+import { createUser, getOneUser } from './../action/User_actions';
 import { IUser } from './../../models/UserTypes';
 import {createSlice, PayloadAction} from "@reduxjs/toolkit";
 import { fetchAllUsers } from '../action/User_actions';
@@ -6,13 +6,15 @@ import { fetchAllUsers } from '../action/User_actions';
 interface UserState {
     load: boolean,
     error: string | null,
-    users: IUser[]
+    users: IUser[],
+    userInfo: IUser | {}
 }
 
 const initialState: UserState = {
     load: false,
     error: null,
-    users: []
+    users: [],
+    userInfo: {}
 }
 
 export const UserSlice = createSlice({
@@ -27,7 +29,7 @@ export const UserSlice = createSlice({
         },
         [fetchAllUsers.fulfilled.type]: (state, action: PayloadAction<IUser[]>) => {
             state.load = false
-            state.users = action.payload
+            state.users = action.payload.reverse()
             state.error = ''
         },
         [fetchAllUsers.rejected.type]: (state, action: PayloadAction<string>) => {
@@ -45,7 +47,23 @@ export const UserSlice = createSlice({
         [createUser.rejected.type]: (state, action: PayloadAction<string>) => {
             state.load = false
             state.error = action.payload
+        },
+
+        //get one user
+        [getOneUser.pending.type]: (state) => {
+            state.load = true
+        },
+        [getOneUser.fulfilled.type]: (state, action: PayloadAction<IUser>) => {
+            state.load = false
+            state.userInfo = action.payload
+            state.error = ''
+        },
+        [getOneUser.rejected.type]: (state, action: PayloadAction<string>) => {
+            state.load = false
+            state.error = action.payload
         }
+
+        
     }
 
 })

@@ -1,21 +1,22 @@
 import { Button, Form, Input } from 'antd';
 import React, { FC } from 'react'
 import { SubmitHandler, useForm, Controller } from 'react-hook-form';
-import { yupResolver } from '@hookform/resolvers/yup';
-import {ValidateAddUser} from '../utils/validation/ValidateAddUser'
+import { DataInputNewUser } from '../models/DataInputNewUser';
 
-type Inputs = {
-    name: string,
-    surname: string,
-  };
+interface AddUserFormProps {
+    createNewUser: (data: DataInputNewUser) => void,
+    setRenderUserList: (renderUserList: boolean) => void,
+    renderUserList: boolean
+}
 
-const AddUserForm: FC = () => {
+const AddUserForm: FC <AddUserFormProps> = ({createNewUser, setRenderUserList, renderUserList}) => {
 
-    const { register, handleSubmit, reset, formState: { errors } } = useForm<Inputs>();
+    const { register, handleSubmit, reset, formState: { errors } } = useForm<DataInputNewUser>();
 
  
-    const onSubmit: SubmitHandler<Inputs> = (data: Inputs) => {
-        console.log(data)
+    const onSubmit: SubmitHandler<DataInputNewUser> = (data: DataInputNewUser) => {
+        createNewUser(data)
+        setRenderUserList(!renderUserList)
         reset()
     }
 

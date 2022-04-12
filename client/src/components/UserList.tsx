@@ -1,12 +1,14 @@
 import { Card, Row, Col } from 'antd'
 import Meta from 'antd/lib/card/Meta'
-import React, { FC, useEffect } from 'react'
+import React, { FC } from 'react'
 import {IUser} from '../models/UserTypes'
 import avatar from '../assets/img/dog.jpg'
 import Spinner from './UI/Spinner'
 import { useNavigate } from 'react-router-dom'
 import { getOneUser } from '../store/action/User_actions'
 import { useAppDispatch } from '../myHooks/Redux'
+import { fetchAllPosts } from '../store/action/Post_actions'
+
 
 interface UserListProps {
     users: IUser[],
@@ -22,12 +24,9 @@ const UserList: FC <UserListProps> = ({users, load, renderUserList}) => {
 
     const goToUserPage = async (item: IUser) => {
         await dispatch(getOneUser(item.id))
+        await dispatch(fetchAllPosts(item.id))
         navigate(`userPage/${item.id}`, {state: item})
     }
-
-    useEffect(() => {
-        console.log(renderUserList, 'renderUserList');
-    }, [renderUserList])
     
 
     return (

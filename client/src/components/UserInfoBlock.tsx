@@ -3,8 +3,8 @@ import { Avatar, Button, Col, Image, Row, Typography } from "antd"
 const {Title} = Typography
 
 interface UserInfoBlockPropsType {
-    name: string,
-    surname: string
+    name: string | undefined,
+    surname: string | undefined
 }
 
 const UserInfoBlock: FC <UserInfoBlockPropsType> = ({name, surname}) => {

@@ -1,4 +1,4 @@
-import { createUser, getOneUser } from './../action/User_actions';
+import { createUser, getOneUser, changeUserIfno, deleteUser } from './../action/User_actions';
 import { IUser } from './../../models/UserTypes';
 import {createSlice, PayloadAction} from "@reduxjs/toolkit";
 import { fetchAllUsers } from '../action/User_actions';
@@ -7,14 +7,14 @@ interface UserState {
     load: boolean,
     error: string | null,
     users: IUser[],
-    userInfo: IUser | {}
+    userInfo: IUser | null 
 }
 
 const initialState: UserState = {
     load: false,
     error: null,
     users: [],
-    userInfo: {}
+    userInfo: null
 }
 
 export const UserSlice = createSlice({
@@ -59,6 +59,33 @@ export const UserSlice = createSlice({
             state.error = ''
         },
         [getOneUser.rejected.type]: (state, action: PayloadAction<string>) => {
+            state.load = false
+            state.error = action.payload
+        },
+
+        //change user info
+        [changeUserIfno.pending.type]: (state) => {
+            state.load = true
+        },
+        [changeUserIfno.fulfilled.type]: (state, action: PayloadAction<IUser>) => {
+            state.load = false
+            state.userInfo = action.payload
+            state.error = ''
+        },
+        [changeUserIfno.rejected.type]: (state, action: PayloadAction<string>) => {
+            state.load = false
+            state.error = action.payload
+        },
+
+        //delete user
+        [deleteUser.pending.type]: (state) => {
+            state.load = true
+        },
+        [deleteUser.fulfilled.type]: (state, action: PayloadAction<number>) => {
+            state.load = false
+            state.error = ''
+        },
+        [deleteUser.rejected.type]: (state, action: PayloadAction<string>) => {
             state.load = false
             state.error = action.payload
         }

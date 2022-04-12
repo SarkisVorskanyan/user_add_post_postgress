@@ -12,9 +12,9 @@ function App() {
 
   const dispatch = useAppDispatch()
 
-  useEffect(() => {
-    dispatch(fetchAllUsers())
-  }, [])
+  // useEffect(() => {
+  //   dispatch(fetchAllUsers())
+  // }, [])
 
   return (
     <div style={{padding: 100, background: '#1D3542', height: '100%', minHeight: '100vh'}}>

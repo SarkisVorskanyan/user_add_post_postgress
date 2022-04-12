@@ -10,8 +10,8 @@ class post_controller {
     async getPostByUser(req, res){
         const id = req.query.id
         console.log(id)
-        res.send('hi')
-        // Select * FROM <name table> where < table fields > = $1, [<parametr>] 
+        const posts = await db.query(`Select * FROM post where user_id = $1`, [id])
+        res.send(posts.rows)
     }
 }
 
